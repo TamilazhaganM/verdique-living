@@ -3,9 +3,9 @@ import express from "express"
 
 const router = express.Router()
 
-router.post("/register",registerUser)
-router.post("/login",loginUser)
-router.post("/verify-email",verifyEmail)
+router.post("/auth/register",registerUser)
+router.post("/auth/login",loginUser)
+router.post("/auth/verify-email",verifyEmail)
 
 
 export default router;

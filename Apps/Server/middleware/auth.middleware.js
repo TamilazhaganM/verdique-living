@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-const authMiddleware = (req,res,next)=>{
+const verifyToken = (req,res,next)=>{
     
         const authHeader = req.headers.authorization
 if(!authHeader){
@@ -24,7 +24,26 @@ if(!authHeader){
         })
     }
 
-
 }
 
-export default authMiddleware;
+const isAdmin = (req, res, next) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Admin only.",
+      });
+    }
+
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+export  {verifyToken, isAdmin};
