@@ -8,9 +8,14 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import { loginUser } from "../../services/auth.service";
+import { useDispatch } from "react-redux";
+import { setWishlist } from "../../redux/slices/wishlistSlice";
+import { getWishlist } from "../../services/wishlist.service";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -38,10 +43,14 @@ const Login = () => {
 
       localStorage.setItem("token", response.accessToken);
 
+      const wishlistResponse = await getWishlist();
+
+      dispatch(setWishlist(wishlistResponse.data));
+
       if (response.user.role === "admin") {
-        navigate("/dashboard");
+        navigate("/admin/dashboard/stats");
       } else if(response.user.role === "user") {
-        navigate("/register");
+        navigate("/");
       } else{
         navigate("/login")
       }

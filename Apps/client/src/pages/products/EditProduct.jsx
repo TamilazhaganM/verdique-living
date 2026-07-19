@@ -5,10 +5,13 @@ import {
   getProductById,
   updateProduct,
 } from "../../services/product.service";
+import { getAllCategories } from "../../services/category.service";
 
 const EditProduct = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const [categories, setCategories] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -30,6 +33,7 @@ const EditProduct = () => {
 
   useEffect(() => {
     fetchProduct();
+     fetchCategories();
   }, []);
 
   const fetchProduct = async () => {
@@ -38,18 +42,18 @@ const EditProduct = () => {
 
       const product = response.data;
 
-      setFormData({
-        name: product.name,
-        description: product.description,
-        category: product.category,
-        price: product.price,
-        stock: product.stock,
-        sunlight: product.sunlight,
-        watering: product.watering,
-        spacing: product.spacing,
-        plantType: product.plantType,
-        isFeatured: product.isFeatured,
-      });
+     setFormData({
+  name: product.name,
+  description: product.description,
+  category: product.category?._id || "",
+  price: product.price,
+  stock: product.stock,
+  sunlight: product.sunlight,
+  watering: product.watering,
+  spacing: product.spacing,
+  plantType: product.plantType,
+  isFeatured: product.isFeatured,
+});
 
       setPreview(product.image.url);
     } catch (error) {
@@ -59,6 +63,15 @@ const EditProduct = () => {
       setLoading(false);
     }
   };
+
+  const fetchCategories = async () => {
+  try {
+    const response = await getAllCategories();
+    setCategories(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -103,7 +116,7 @@ const EditProduct = () => {
 
       alert("Product updated successfully!");
 
-      navigate("/products");
+      navigate("/admin/products");
     } catch (error) {
       console.error(error);
       alert("Failed to update product.");
@@ -124,7 +137,7 @@ const EditProduct = () => {
       <div className="mb-8">
 
         <Link
-          to="/products"
+          to="/admin/products"
           className="flex items-center gap-2 text-green-700 hover:text-green-800 mb-4"
         >
           <ArrowLeft size={18} />
@@ -155,14 +168,23 @@ const EditProduct = () => {
             className="border rounded-xl p-3"
           />
 
-          <input
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            placeholder="Category"
-            className="border rounded-xl p-3"
-          />
+         <select
+  name="category"
+  value={formData.category._id}
+  onChange={handleChange}
+  className="w-full border rounded-xl p-3"
+>
+  <option value="">Select Category</option>
 
+  {categories.map((category) => (
+    <option
+      key={category._id}
+      value={category._id}
+    >
+      {category.name}
+    </option>
+  ))}
+</select>
           <input
             type="number"
             name="price"
@@ -278,7 +300,7 @@ const EditProduct = () => {
 
           <button
             type="button"
-            onClick={() => navigate("/products")}
+            onClick={() => navigate("/admin/products")}
             className="border px-6 py-3 rounded-xl"
           >
             Cancel

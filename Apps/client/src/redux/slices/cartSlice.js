@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const savedCart = localStorage.getItem("cart");
+
 const initialState = {
-  items: [],
+
+    items: savedCart ? JSON.parse(savedCart) : [],
+
 };
 
 const cartSlice = createSlice({
@@ -28,6 +32,7 @@ const cartSlice = createSlice({
       });
 
       }
+      localStorage.setItem("cart", JSON.stringify(state.items));
     },
 
     removeFromCart: (state, action) => {
@@ -35,7 +40,7 @@ const cartSlice = createSlice({
       state.items = state.items.filter(
         (item) => item._id !== action.payload
       );
-
+  localStorage.setItem("cart", JSON.stringify(state.items));
     },
 
     increaseQuantity: (state, action) => {
@@ -49,7 +54,7 @@ const cartSlice = createSlice({
         item.quantity++;
 
       }
-
+  localStorage.setItem("cart", JSON.stringify(state.items));
     },
 
     decreaseQuantity: (state, action) => {
@@ -63,13 +68,13 @@ const cartSlice = createSlice({
         item.quantity--;
 
       }
-
+ localStorage.setItem("cart", JSON.stringify(state.items));
     },
 
     clearCart: (state) => {
 
       state.items = [];
-
+  localStorage.removeItem("cart");
     },
 
   },

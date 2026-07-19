@@ -1,57 +1,88 @@
+import { useEffect, useState } from "react";
+import Container from "../../components/ui/Container";
+import { getAllOrders } from "../../services/adminOrder.service";
+import OrderTable from "../../components/admin/OrderTable";
+
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchOrders = async () => {
+    try {
+      const response = await getAllOrders();
+      setOrders(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return (
+      <Container>
+        <div className="py-20 text-center text-lg sm:text-xl font-semibold">
+          Loading Orders...
+        </div>
+      </Container>
+    );
+  }
+
   return (
-    <div className="p-6">
+    <Container className="py-6 sm:py-8 lg:py-10">
 
-      <h1 className="text-3xl font-bold mb-6">
-        Orders
-      </h1>
+      {/* Header */}
 
-      <div className="bg-white rounded-xl shadow border">
+      <div
+        className="
+          flex
+          flex-col
+          sm:flex-row
+          sm:items-center
+          sm:justify-between
+          gap-4
+          mb-8
+        "
+      >
+        <div>
 
-        <table className="w-full">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            Orders
+          </h1>
 
-          <thead className="bg-gray-100">
+          <p className="text-gray-500 mt-1 text-sm sm:text-base">
+            Manage customer orders.
+          </p>
 
-            <tr>
+        </div>
 
-              <th className="p-4 text-left">Order ID</th>
-              <th className="text-left">Customer</th>
-              <th className="text-left">Amount</th>
-              <th className="text-left">Status</th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr className="border-t">
-
-              <td className="p-4">#1001</td>
-
-              <td>Ravi</td>
-
-              <td>₹499</td>
-
-              <td>
-
-                <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
-
-                  Pending
-
-                </span>
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
+        <input
+          type="text"
+          placeholder="Search Orders..."
+          className="
+            w-full
+            sm:w-72
+            border
+            rounded-xl
+            px-4
+            py-3
+            focus:outline-none
+            focus:ring-2
+            focus:ring-green-600
+          "
+        />
       </div>
 
-    </div>
+      <OrderTable
+        orders={orders}
+        refreshOrders={fetchOrders}
+      />
+
+    </Container>
   );
 };
 

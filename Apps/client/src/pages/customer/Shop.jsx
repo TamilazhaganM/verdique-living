@@ -1,10 +1,11 @@
 import React, { useState,useEffect } from 'react'
-import ProductToolbar from "../../components/customer/ProductToolbar";
-import ProductFilters from "../../components/customer/ProductFilter";
-import ProductGrid from '../../components/customer/ProductGrid';
+import ProductToolbar from "../../components/shop/ProductToolbar";
+import ProductFilters from "../../components/shop/ProductFilter";
+import ProductGrid from '../../components/shop/ProductGrid';
 import Container from '../../components/ui/Container';
 import SectionTitle from '../../components/ui/SectionTitle';
 import { getAllProducts } from '../../services/product.service';
+import { getAllCategories } from '../../services/category.service';
 
 const Shop = () => {
     const [search, setSearch] = useState("");
@@ -30,6 +31,8 @@ const [totalPages, setTotalPages] = useState(1);
 
 const [totalProducts, setTotalProducts] = useState(0);
 
+const [categories, setCategories] = useState([]);
+
 useEffect(() => {
   const timer = setTimeout(() => {
     setDebouncedSearch(search);
@@ -38,8 +41,25 @@ useEffect(() => {
   return () => clearTimeout(timer);
 }, [search]);
 
+const fetchCategories = async () => {
+  try {
 
+    const response = await getAllCategories();
 
+    setCategories(response.data);
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+};
+
+useEffect(() => {
+
+  fetchCategories();
+
+}, []);
 
 useEffect(() => {
 
@@ -114,27 +134,34 @@ const clearFilters = () => {
   setSort={setSort}
   totalProducts={totalProducts} />
 
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-10">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-8 lg:mt-10">
 
-   <ProductFilters
-    category={category}
-    setCategory={setCategory}
-    minPrice={minPrice}
-    setMinPrice={setMinPrice}
-    maxPrice={maxPrice}
-    setMaxPrice={setMaxPrice}
-    inStock={inStock}
-    setInStock={setInStock}
-    clearFilters={clearFilters}
-/>
+  {/* Filters */}
+  <div className="lg:col-span-1">
+    <ProductFilters
+      categories={categories}
+      category={category}
+      setCategory={setCategory}
+      minPrice={minPrice}
+      setMinPrice={setMinPrice}
+      maxPrice={maxPrice}
+      setMaxPrice={setMaxPrice}
+      inStock={inStock}
+      setInStock={setInStock}
+      clearFilters={clearFilters}
+    />
+  </div>
 
- <ProductGrid
-    products={products}
-    loading={loading}
-    clearFilters={clearFilters}
-/>
+  {/* Products */}
+  <div className="lg:col-span-3">
+    <ProductGrid
+      products={products}
+      loading={loading}
+      clearFilters={clearFilters}
+    />
+  </div>
 
-    </div>
+</div>
 
   </Container>
 </>

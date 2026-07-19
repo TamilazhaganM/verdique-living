@@ -1,22 +1,26 @@
-import { Outlet } from "react-router-dom";
+import { useState } from "react";
 import Sidebar from "../components/admin/Sidebar";
 import Navbar from "../components/admin/Navbar";
+import { Outlet } from "react-router-dom";
 
 const AdminLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-slate-100">
+    <div className="flex h-screen">
 
-      {/* Sidebar */}
-      <Sidebar />
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col">
 
-        {/* Navbar */}
-        <Navbar />
+        <Navbar
+          setSidebarOpen={setSidebarOpen}
+        />
 
-        {/* Page Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto p-6">
           <Outlet />
         </main>
 

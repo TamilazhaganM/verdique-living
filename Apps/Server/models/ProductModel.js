@@ -21,16 +21,10 @@ const productSchema = new mongoose.Schema(
     },
 
     category: {
-      type: String,
-      required: true,
-      enum: [
-        "Indoor Plant",
-        "Outdoor Plant",
-        "Pot",
-        "Fertilizer",
-        "Gardening Tool",
-      ],
-    },
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Category",
+  required: true,
+},
 
     image:  
       {

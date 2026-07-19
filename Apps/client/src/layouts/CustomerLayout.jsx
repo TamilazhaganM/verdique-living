@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/customer/Navbar";
 import Footer from "../components/customer/Footer";
-import CartDrawer from "../components/customer/CartDrawer";
+import CartDrawer from "../components/cart/CartDrawer";
 
 
 const CustomerLayout = () => {

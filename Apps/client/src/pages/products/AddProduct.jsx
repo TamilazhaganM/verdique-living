@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Upload } from "lucide-react";
 import { createProducts } from "../../services/product.service";
+import { getAllCategories } from "../../services/category.service";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-
+const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -41,6 +42,19 @@ const AddProduct = () => {
     setPreview(URL.createObjectURL(file));
   };
 
+const fetchCategories = async () => {
+  try {
+    const response = await getAllCategories();
+
+    setCategories(response.data);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+useEffect(() => {
+  fetchCategories();
+}, []);
   const handleSubmit = async(e) => {
     e.preventDefault();
    
@@ -61,7 +75,7 @@ data.append("isFeatured", formData.isFeatured);
 data.append("image", image);
  const response = await createProducts(data)
  alert("Product added Successfully")
- navigate("/products")
+ navigate("/admin/products")
 
   };
 
@@ -73,7 +87,7 @@ data.append("image", image);
         <div>
 
           <Link
-            to="/products"
+            to="/admin/products"
             className="flex items-center gap-2 text-green-700 hover:text-green-800 mb-3"
           >
             <ArrowLeft size={18} />
@@ -126,12 +140,20 @@ data.append("image", image);
               onChange={handleChange}
               className="w-full border rounded-xl p-3"
             >
-              <option value="">Select Category</option>
-              <option>Indoor Plant</option>
-              <option>Outdoor Plant</option>
-              <option>Pot</option>
-              <option>Fertilizer</option>
-              <option>Tool</option>
+              <option value="">
+  Select Category
+</option>
+
+{categories.map((category) => (
+
+  <option
+    key={category._id}
+    value={category._id}
+  >
+    {category.name}
+  </option>
+
+))}
             </select>
 
           </div>
@@ -302,7 +324,7 @@ data.append("image", image);
 
           <button
             type="button"
-            onClick={() => navigate("/products")}
+            onClick={() => navigate("/admin/products")}
             className="px-6 py-3 border rounded-xl"
           >
             Cancel

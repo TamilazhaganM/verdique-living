@@ -18,6 +18,8 @@ if(!authHeader){
     req.user = decoded
     next()
     } catch (error) {
+       console.log("JWT Error Name:", error.name);
+  console.log("JWT Error Message:", error.message);
         return res.status(401).json({
             success:false,
             message:"Invalid or expired token"

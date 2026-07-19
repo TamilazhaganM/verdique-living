@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import Container from "../ui/Container";
 import SectionTitle from "../ui/SectionTitle";
-import ProductCard from "./ProductCard";
+import ProductCard from "../shop/ProductCard";
 
 import { getAllProducts } from "../../services/product.service";
 

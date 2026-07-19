@@ -1,29 +1,38 @@
-const StatCard = ({ title, value, icon }) => {
+import { motion } from "framer-motion";
+
+const StatsCard = ({
+  icon: Icon,
+  title,
+  value,
+  color,
+  onClick,
+}) => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition">
+    <motion.div
+      whileHover={{ y: -5 }}
+      onClick={onClick}
+      className="
+        bg-white
+        rounded-2xl
+        shadow
+        border
+        p-6
+        cursor-pointer
+        transition
+      "
+    >
+      <Icon className={color} size={36} />
 
-      <div className="flex justify-between items-center">
+      <p className="text-gray-500 mt-4">
+        {title}
+      </p>
 
-        <div>
+      <h2 className="text-3xl font-bold mt-2 text-gray-800">
+        {value}
+      </h2>
 
-          <p className="text-gray-500">
-            {title}
-          </p>
-
-          <h2 className="text-3xl font-bold mt-2">
-            {value}
-          </h2>
-
-        </div>
-
-        <div className="bg-green-100 text-green-700 p-4 rounded-xl">
-          {icon}
-        </div>
-
-      </div>
-
-    </div>
+    </motion.div>
   );
 };
 
-export default StatCard;
+export default StatsCard;

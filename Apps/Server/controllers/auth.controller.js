@@ -1,4 +1,4 @@
-import User from "../models/Usermodels.js";
+import User from "../models/UserModels.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import sendEmail from "../services/sendMail.js";
@@ -109,7 +109,7 @@ const loginUser = async(req,res)=>{
     },
 process.env.JWT_SECRET,
 {
-    expiresIn:"15m"
+    expiresIn:"1h"
 }
 )
 
@@ -141,6 +141,34 @@ return res.status(200).json({
     
 
 }
+const getCurrentUser = async (req, res) => {
+  try {
+
+    const user = await User.findById(req.user.userId).select(
+      "name email role"
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: user,
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
 
 
-export{registerUser,loginUser,verifyEmail};
+export{registerUser,loginUser,verifyEmail,getCurrentUser};
