@@ -12,7 +12,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 const app = express()
 app.use(express.json())
 app.use(cors({
-origin:"http://localhost:5173",
+origin:["http://localhost:5173","https://verdique-living.vercel.app",],
 credentials:true
 }))
 
