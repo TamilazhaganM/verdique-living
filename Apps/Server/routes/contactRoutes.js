@@ -1,5 +1,5 @@
 import express from "express";
-import { createContact, getAllContacts, updateContactStatus } from "../controllers/contact.Controller.js";
+import { createContact, getAllContacts, updateContactStatus } from "../controllers/contact.controller.js";
 import { isAdmin, verifyToken } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
