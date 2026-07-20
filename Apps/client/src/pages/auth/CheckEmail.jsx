@@ -1,5 +1,6 @@
 import { Link,useLocation } from "react-router-dom";
 import { FaEnvelopeOpenText, FaLeaf } from "react-icons/fa";
+import logo from "../../../public/Verdique logo.jpg"
 
 const CheckEmail = () => {
   const location = useLocation();
@@ -21,7 +22,7 @@ const CheckEmail = () => {
         {/* Icon */}
 
         <div className="flex justify-center mt-6">
-          <FaEnvelopeOpenText className="text-green-700 text-6xl" />
+          <img src={logo} className="text-green-700 text-6xl" />
         </div>
 
         {/* Heading */}
