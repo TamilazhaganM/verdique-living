@@ -12,7 +12,7 @@ import { getDashboard } from "../../services/dashboard.service";
 
 import MonthlySalesChart from "../../components/admin/MonthlySalesChart";
 import OrderStatusChart from "../../components/admin/OrderStatusChart";
-import StatsCard from "../../components/admin/StatCard";
+import StatsCard from "../../components/admin/Statcard";
 
 import { useNavigate } from "react-router-dom";
 

@@ -3,8 +3,8 @@ import FeaturedProducts from "../../components/customer/FeaturedProduct";
 import Hero from "../../components/Home/Hero";
 import Navbar from "../../components/customer/Navbar";
 import Statistics from "../../components/customer/Statistics";
-import TestimonialCard from "../../components/home/TestimonialCard";
-import Testimonials from "../../components/home/Testimonial";
+import TestimonialCard from "../../components/Home/TestimonialCard";
+import Testimonials from "../../components/Home/Testimonial";
 import WhyChooseUs from "../../components/customer/WhyChooseUs";
 import Newsletter from "../../components/customer/Newsletter";
 
