@@ -1,33 +1,35 @@
-import * as brevo from "@getbrevo/brevo";
+import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const apiInstance = new brevo.TransactionalEmailsApi();
-
-apiInstance.setApiKey(
-  brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
-
 const sendEmail = async (to, subject, html) => {
-  const email = new brevo.SendSmtpEmail();
-
-  email.sender = {
-    name: "Verdique Living",
-    email: process.env.EMAIL_USER,
-  };
-
-  email.to = [
+  const response = await axios.post(
+    "https://api.brevo.com/v3/smtp/email",
     {
-      email: to,
+      sender: {
+        name: "Verdique Living",
+        email: process.env.EMAIL_USER,
+      },
+      to: [
+        {
+          email: to,
+        },
+      ],
+      subject,
+      htmlContent: html,
     },
-  ];
+    {
+      headers: {
+        "api-key": process.env.BREVO_API_KEY,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
-  email.subject = subject;
-  email.htmlContent = html;
+  console.log("Email sent:", response.data);
 
-  return await apiInstance.sendTransacEmail(email);
+  return response.data;
 };
 
 export default sendEmail;
