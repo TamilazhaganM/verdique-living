@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleCart } from "../../redux/slices/uiSlice";
+import logo from "../../../public/verdique logo.jpg"
 import {
   Menu,
   X,
@@ -71,10 +72,11 @@ const Navbar = () => {
             to="/"
             className="flex items-center gap-2"
           >
-            <Leaf
+          <img className="w-10 h-10 rounded-full" src={logo} alt="" srcset=""/>
+            {/* <Leaf
               className="text-green-700"
               size={30}
-            />
+            /> */}
 
             <div>
 
@@ -120,9 +122,9 @@ const Navbar = () => {
 
           <div className="hidden lg:flex items-center gap-5">
 
-            <button className="hover:text-green-700 transition">
+            <Link to="/shop" className="hover:text-green-700 transition">
               <Search />
-            </button>
+            </Link>
 
             <Link
               to="/wishlist"

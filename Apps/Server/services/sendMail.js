@@ -12,12 +12,14 @@ const transport = nodemailer.createTransport({
 });
 
 const sendEmail = async (to, subject, html) => {
-  return await transport.sendMail({
+  const info= await transport.sendMail({
     from: `"Verdique Living" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     html,
   });
+
+  return info;
 };
 
 export default sendEmail;

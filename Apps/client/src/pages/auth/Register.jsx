@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaLeaf } from "react-icons/fa";
 import { registerUser } from "../../services/auth.service";
+import toast from "react-hot-toast"
 
 const Register = () => {
   const navigate =useNavigate()
@@ -25,8 +26,12 @@ const Register = () => {
      const response =await registerUser(formData)
 
       console.log(response);
-      navigate("/check-email")
-      alert("Account created successfully!");
+      navigate("/check-email",{
+        state:{
+          email:formData.email,
+        },
+      })
+      toast("Account Created successfully")
     } catch (err) {
       console.log(err.response?.data || err.message);
     }

@@ -430,7 +430,7 @@ lg:text-3xl
 text-sm
 sm:text-base transition group-hover:text-white">
 
-                    Air Purifying
+                    Fresh Every Day
 
                   </h4>
 

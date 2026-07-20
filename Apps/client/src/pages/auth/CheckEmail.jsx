@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import { FaEnvelopeOpenText, FaLeaf } from "react-icons/fa";
 
 const CheckEmail = () => {
-  // Replace with the actual email from state or navigation
-  const email = "mt*****@gmail.com";
+  const location = useLocation();
+  const email = location.state?.email || "Email not available";
 
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 via-white to-green-100 flex items-center justify-center px-6">
