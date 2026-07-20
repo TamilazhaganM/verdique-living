@@ -21,12 +21,13 @@ const sendEmail = async (to, subject, html) => {
     },
     {
       headers: {
-        "api-key": process.env.BREVO_API_KEY,
+        "api-key": process.env.EMAIL_PASS,
         "Content-Type": "application/json",
       },
     }
   );
-
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("API KEY PREFIX:", process.env.EMAIL_PASS?.substring(0, 8));
   console.log("Email sent:", response.data);
 
   return response.data;
