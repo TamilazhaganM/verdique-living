@@ -1,4 +1,4 @@
-import Wishlist from "../models/wishlistModel.js";
+import Wishlist from "../models/WishlistModel.js";
 
 const toggleWishlist = async (req, res) => {
   try {
