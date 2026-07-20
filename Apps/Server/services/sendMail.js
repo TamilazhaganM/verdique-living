@@ -1,29 +1,33 @@
+import * as brevo from "@getbrevo/brevo";
 import dotenv from "dotenv";
-dotenv.config({ path: "./.env" });
 
-import nodemailer from "nodemailer";
+dotenv.config();
 
-const transport = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const apiInstance = new brevo.TransactionalEmailsApi();
+
+apiInstance.setApiKey(
+  brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
 const sendEmail = async (to, subject, html) => {
-  const info = await transport.sendMail({
-    from: `"Verdique Living" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html,
-  });
+  const email = new brevo.SendSmtpEmail();
 
-  console.log("Email sent:", info.response);
+  email.sender = {
+    name: "Verdique Living",
+    email: process.env.EMAIL_USER,
+  };
 
-  return info;
+  email.to = [
+    {
+      email: to,
+    },
+  ];
+
+  email.subject = subject;
+  email.htmlContent = html;
+
+  return await apiInstance.sendTransacEmail(email);
 };
 
 export default sendEmail;
