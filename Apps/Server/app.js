@@ -8,7 +8,7 @@ import wishlistRoutes from "./routes/wishlistRoutes.js"
 import cors from "cors"
 import userRoutes from './routes/userRoutes.js'
 import contactRoutes from "./routes/contactRoutes.js"
-import categoryRoutes from "./routes/CategoryRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 const app = express()
 app.use(express.json())
 app.use(cors({
