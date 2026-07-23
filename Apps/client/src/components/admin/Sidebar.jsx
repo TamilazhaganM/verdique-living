@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/Verdique-logo.jpg"
 import {
   LayoutDashboard,
   Package,
@@ -92,10 +93,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       >
         {/* Logo */}
 
-        <div className="h-16 border-b flex items-center justify-between px-5">
-
-          <h1 className="text-2xl font-bold text-green-700">
-            🌿 Verdique
+        <div className="h-16 border-b flex  items-center  px-5">
+<img className="w-12 h-12 rounded-full" src={logo} alt="" srcset=""/>
+          <h1 className="text-2xl  font-bold text-green-700">
+             Verdique
           </h1>
 
           <button

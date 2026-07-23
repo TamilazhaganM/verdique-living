@@ -191,32 +191,47 @@ data.append("image", image);
           </div>
 
           <div>
-
-            <label className="block mb-2 font-medium">
+             <label className="block mb-2 font-medium">
               Sunlight
             </label>
 
-            <input
-              name="sunlight"
-              value={formData.sunlight}
-              onChange={handleChange}
-              className="w-full border rounded-xl p-3"
-            />
+
+           <select
+  name="sunlight"
+  value={formData.sunlight}
+  onChange={handleChange}
+  className="w-full border rounded-xl p-3"
+>
+  <option value="">Select Sunlight Requirement</option>
+  <option value="Full Sun">☀️ Full Sun</option>
+  <option value="Partial Sun">🌤️ Partial Sun</option>
+  <option value="Partial Shade">🌥️ Partial Shade</option>
+  <option value="Full Shade">🌳 Full Shade</option>
+  <option value="Bright Indirect Light">💡 Bright Indirect Light</option>
+  <option value="Low Light">🌙 Low Light</option>
+</select>
 
           </div>
 
           <div>
-
-            <label className="block mb-2 font-medium">
+   <label className="block mb-2 font-medium">
               Watering
             </label>
 
-            <input
-              name="watering"
-              value={formData.watering}
-              onChange={handleChange}
-              className="w-full border rounded-xl p-3"
-            />
+            <select
+  name="watering"
+  value={formData.watering}
+  onChange={handleChange}
+  className="w-full border rounded-xl p-3"
+>
+  <option value="">Select Watering Frequency</option>
+  <option value="Daily">💧 Daily</option>
+  <option value="Every 2-3 Days">💦 Every 2–3 Days</option>
+  <option value="Twice a Week">🌿 Twice a Week</option>
+  <option value="Weekly">🪴 Weekly</option>
+  <option value="Every 10-15 Days">🌵 Every 10–15 Days</option>
+  <option value="Monthly">🏜️ Monthly</option>
+</select>
 
           </div>
 
@@ -236,17 +251,28 @@ data.append("image", image);
           </div>
 
           <div>
-
-            <label className="block mb-2 font-medium">
-              Plant Type
+   <label className="block mb-2 font-medium">
+              Plant type
             </label>
 
-            <input
-              name="plantType"
-              value={formData.plantType}
-              onChange={handleChange}
-              className="w-full border rounded-xl p-3"
-            />
+            <select
+  name="plantType"
+  value={formData.plantType}
+  onChange={handleChange}
+  className="w-full border rounded-xl p-3"
+>
+  <option value="">Select Plant Type</option>
+  <option value="Indoor">Indoor</option>
+  <option value="Outdoor">Outdoor</option>
+  <option value="Succulent">Succulent</option>
+  <option value="Flowering">Flowering</option>
+  <option value="Air Purifying">Air Purifying</option>
+  <option value="Medicinal">Medicinal</option>
+  <option value="Climber">Climber</option>
+  <option value="Shrub">Shrub</option>
+  <option value="Tree">Tree</option>
+  <option value="Bonsai">Bonsai</option>
+</select>
 
           </div>
 

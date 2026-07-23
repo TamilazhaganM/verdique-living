@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleCart } from "../../redux/slices/uiSlice";
-import logo from "../../../public/Verdique logo.jpg"
+import logo from "../../assets/images/Verdique-logo.jpg"
 import {
   Menu,
   X,

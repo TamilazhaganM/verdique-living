@@ -66,7 +66,7 @@ const ProductFilters = ({
         top-0
         left-0
         h-screen
-        w-80
+        w-75
         z-50
         overflow-y-auto
         transition-transform

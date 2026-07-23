@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaLeaf } from "react-icons/fa";
 import { registerUser } from "../../services/auth.service";
 import toast from "react-hot-toast"
+import logo from "../../assets/images/Verdique-logo.jpg"
 
 const Register = () => {
   const navigate =useNavigate()
@@ -55,7 +56,7 @@ const Register = () => {
 
           <div className="flex items-center gap-3 mb-6">
 
-            <FaLeaf className="text-5xl text-green-300" />
+            <img src={logo} className="text-xl w-12 h-12 rounded-full text-green-300" />
 
             <h1 className="text-4xl font-bold">
               Verdique Living
@@ -91,7 +92,7 @@ const Register = () => {
 
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100">
 
-              <FaLeaf className="text-green-700 text-2xl" />
+              <img src={logo} className="text-green-700 text-2xl rounded-full" />
 
             </div>
 
