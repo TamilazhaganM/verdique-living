@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Upload } from "lucide-react";
 import { createProducts } from "../../services/product.service";
@@ -6,7 +6,7 @@ import { getAllCategories } from "../../services/category.service";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -42,50 +42,44 @@ const [categories, setCategories] = useState([]);
     setPreview(URL.createObjectURL(file));
   };
 
-const fetchCategories = async () => {
-  try {
-    const response = await getAllCategories();
+  const fetchCategories = async () => {
+    try {
+      const response = await getAllCategories();
 
-    setCategories(response.data);
-
-  } catch (error) {
-    console.log(error);
-  }
-};
-useEffect(() => {
-  fetchCategories();
-}, []);
-  const handleSubmit = async(e) => {
+      setCategories(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   
 
     console.log(formData);
     console.log(image);
     const data = new FormData();
-    data.append("name",formData.name);
+    data.append("name", formData.name);
     data.append("description", formData.description);
-data.append("price", formData.price);
-data.append("category", formData.category);
-data.append("stock", formData.stock);
-data.append("sunlight", formData.sunlight);
-data.append("watering", formData.watering);
-data.append("spacing", formData.spacing);
-data.append("plantType", formData.plantType);
-data.append("isFeatured", formData.isFeatured);
-data.append("image", image);
- const response = await createProducts(data)
- alert("Product added Successfully")
- navigate("/admin/products")
-
+    data.append("price", formData.price);
+    data.append("category", formData.category);
+    data.append("stock", formData.stock);
+    data.append("sunlight", formData.sunlight);
+    data.append("watering", formData.watering);
+    data.append("spacing", formData.spacing);
+    data.append("plantType", formData.plantType);
+    data.append("isFeatured", formData.isFeatured);
+    data.append("image", image);
+    const response = await createProducts(data);
+    alert("Product added Successfully");
+    navigate("/admin/products");
   };
 
   return (
     <div className="max-w-6xl mx-auto">
-
       <div className="flex items-center justify-between mb-8">
-
         <div>
-
           <Link
             to="/admin/products"
             className="flex items-center gap-2 text-green-700 hover:text-green-800 mb-3"
@@ -94,30 +88,21 @@ data.append("image", image);
             Back to Products
           </Link>
 
-          <h1 className="text-3xl font-bold">
-            Add Product
-          </h1>
+          <h1 className="text-3xl font-bold">Add Product</h1>
 
           <p className="text-gray-500 mt-1">
             Create a new product for your store.
           </p>
-
         </div>
-
       </div>
 
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-2xl shadow border p-8"
       >
-
         <div className="grid md:grid-cols-2 gap-6">
-
           <div>
-
-            <label className="block mb-2 font-medium">
-              Product Name
-            </label>
+            <label className="block mb-2 font-medium">Product Name</label>
 
             <input
               name="name"
@@ -125,14 +110,10 @@ data.append("image", image);
               onChange={handleChange}
               className="w-full border rounded-xl p-3"
             />
-
           </div>
 
           <div>
-
-            <label className="block mb-2 font-medium">
-              Category
-            </label>
+            <label className="block mb-2 font-medium">Category</label>
 
             <select
               name="category"
@@ -140,29 +121,18 @@ data.append("image", image);
               onChange={handleChange}
               className="w-full border rounded-xl p-3"
             >
-              <option value="">
-  Select Category
-</option>
+              <option value="">Select Category</option>
 
-{categories.map((category) => (
-
-  <option
-    key={category._id}
-    value={category._id}
-  >
-    {category.name}
-  </option>
-
-))}
+              {categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
-
           </div>
 
           <div>
-
-            <label className="block mb-2 font-medium">
-              Price
-            </label>
+            <label className="block mb-2 font-medium">Price</label>
 
             <input
               type="number"
@@ -171,14 +141,10 @@ data.append("image", image);
               onChange={handleChange}
               className="w-full border rounded-xl p-3"
             />
-
           </div>
 
           <div>
-
-            <label className="block mb-2 font-medium">
-              Stock
-            </label>
+            <label className="block mb-2 font-medium">Stock</label>
 
             <input
               type="number"
@@ -187,59 +153,50 @@ data.append("image", image);
               onChange={handleChange}
               className="w-full border rounded-xl p-3"
             />
-
           </div>
 
           <div>
-             <label className="block mb-2 font-medium">
-              Sunlight
-            </label>
-
-
-           <select
-  name="sunlight"
-  value={formData.sunlight}
-  onChange={handleChange}
-  className="w-full border rounded-xl p-3"
->
-  <option value="">Select Sunlight Requirement</option>
-  <option value="Full Sun">☀️ Full Sun</option>
-  <option value="Partial Sun">🌤️ Partial Sun</option>
-  <option value="Partial Shade">🌥️ Partial Shade</option>
-  <option value="Full Shade">🌳 Full Shade</option>
-  <option value="Bright Indirect Light">💡 Bright Indirect Light</option>
-  <option value="Low Light">🌙 Low Light</option>
-</select>
-
-          </div>
-
-          <div>
-   <label className="block mb-2 font-medium">
-              Watering
-            </label>
+            <label className="block mb-2 font-medium">Sunlight</label>
 
             <select
-  name="watering"
-  value={formData.watering}
-  onChange={handleChange}
-  className="w-full border rounded-xl p-3"
->
-  <option value="">Select Watering Frequency</option>
-  <option value="Daily">💧 Daily</option>
-  <option value="Every 2-3 Days">💦 Every 2–3 Days</option>
-  <option value="Twice a Week">🌿 Twice a Week</option>
-  <option value="Weekly">🪴 Weekly</option>
-  <option value="Every 10-15 Days">🌵 Every 10–15 Days</option>
-  <option value="Monthly">🏜️ Monthly</option>
-</select>
-
+              name="sunlight"
+              value={formData.sunlight}
+              onChange={handleChange}
+              className="w-full border rounded-xl p-3"
+            >
+              <option value="">Select Sunlight Requirement</option>
+              <option value="Full Sun">☀️ Full Sun</option>
+              <option value="Partial Sun">🌤️ Partial Sun</option>
+              <option value="Partial Shade">🌥️ Partial Shade</option>
+              <option value="Full Shade">🌳 Full Shade</option>
+              <option value="Bright Indirect Light">
+                💡 Bright Indirect Light
+              </option>
+              <option value="Low Light">🌙 Low Light</option>
+            </select>
           </div>
 
           <div>
+            <label className="block mb-2 font-medium">Watering</label>
 
-            <label className="block mb-2 font-medium">
-              Spacing
-            </label>
+            <select
+              name="watering"
+              value={formData.watering}
+              onChange={handleChange}
+              className="w-full border rounded-xl p-3"
+            >
+              <option value="">Select Watering Frequency</option>
+              <option value="Daily">💧 Daily</option>
+              <option value="Every 2-3 Days">💦 Every 2–3 Days</option>
+              <option value="Twice a Week">🌿 Twice a Week</option>
+              <option value="Weekly">🪴 Weekly</option>
+              <option value="Every 10-15 Days">🌵 Every 10–15 Days</option>
+              <option value="Monthly">🏜️ Monthly</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block mb-2 font-medium">Spacing</label>
 
             <input
               name="spacing"
@@ -247,42 +204,34 @@ data.append("image", image);
               onChange={handleChange}
               className="w-full border rounded-xl p-3"
             />
-
           </div>
 
           <div>
-   <label className="block mb-2 font-medium">
-              Plant type
-            </label>
+            <label className="block mb-2 font-medium">Plant type</label>
 
             <select
-  name="plantType"
-  value={formData.plantType}
-  onChange={handleChange}
-  className="w-full border rounded-xl p-3"
->
-  <option value="">Select Plant Type</option>
-  <option value="Indoor">Indoor</option>
-  <option value="Outdoor">Outdoor</option>
-  <option value="Succulent">Succulent</option>
-  <option value="Flowering">Flowering</option>
-  <option value="Air Purifying">Air Purifying</option>
-  <option value="Medicinal">Medicinal</option>
-  <option value="Climber">Climber</option>
-  <option value="Shrub">Shrub</option>
-  <option value="Tree">Tree</option>
-  <option value="Bonsai">Bonsai</option>
-</select>
-
+              name="plantType"
+              value={formData.plantType}
+              onChange={handleChange}
+              className="w-full border rounded-xl p-3"
+            >
+              <option value="">Select Plant Type</option>
+              <option value="Indoor">Indoor</option>
+              <option value="Outdoor">Outdoor</option>
+              <option value="Succulent">Succulent</option>
+              <option value="Flowering">Flowering</option>
+              <option value="Air Purifying">Air Purifying</option>
+              <option value="Medicinal">Medicinal</option>
+              <option value="Climber">Climber</option>
+              <option value="Shrub">Shrub</option>
+              <option value="Tree">Tree</option>
+              <option value="Bonsai">Bonsai</option>
+            </select>
           </div>
-
         </div>
 
         <div className="mt-6">
-
-          <label className="block mb-2 font-medium">
-            Description
-          </label>
+          <label className="block mb-2 font-medium">Description</label>
 
           <textarea
             rows={5}
@@ -291,63 +240,41 @@ data.append("image", image);
             onChange={handleChange}
             className="w-full border rounded-xl p-3"
           />
-
         </div>
 
         <div className="mt-6">
-
           <label className="flex items-center gap-3">
-
             <input
               type="checkbox"
               name="isFeatured"
               checked={formData.isFeatured}
               onChange={handleChange}
             />
-
             Featured Product
-
           </label>
-
         </div>
 
         <div className="mt-8">
-
-          <label className="block mb-3 font-medium">
-            Product Image
-          </label>
+          <label className="block mb-3 font-medium">Product Image</label>
 
           <label className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-green-600 transition">
-
             <Upload size={35} />
 
-            <p className="mt-3">
-              Click to Upload
-            </p>
+            <p className="mt-3">Click to Upload</p>
 
-            <input
-              hidden
-              type="file"
-              accept="image/*"
-              onChange={handleImage}
-            />
-
+            <input hidden type="file" accept="image/*" onChange={handleImage} />
           </label>
 
           {preview && (
-
             <img
               src={preview}
               alt="preview"
               className="mt-5 w-48 rounded-xl border"
             />
-
           )}
-
         </div>
 
         <div className="flex justify-end gap-4 mt-10">
-
           <button
             type="button"
             onClick={() => navigate("/admin/products")}
@@ -357,17 +284,13 @@ data.append("image", image);
           </button>
 
           <button
-          
             type="submit"
             className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-xl"
           >
             Save Product
           </button>
-
         </div>
-
       </form>
-
     </div>
   );
 };

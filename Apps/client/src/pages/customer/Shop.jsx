@@ -1,171 +1,135 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import ProductToolbar from "../../components/shop/ProductToolbar";
 import ProductFilters from "../../components/shop/ProductFilter";
-import ProductGrid from '../../components/shop/ProductGrid';
-import Container from '../../components/ui/Container';
-import SectionTitle from '../../components/ui/SectionTitle';
-import { getAllProducts } from '../../services/product.service';
-import { getAllCategories } from '../../services/category.service';
+import ProductGrid from "../../components/shop/ProductGrid";
+import Container from "../../components/ui/Container";
+import SectionTitle from "../../components/ui/SectionTitle";
+import { getAllProducts } from "../../services/product.service";
+import { getAllCategories } from "../../services/category.service";
 
 const Shop = () => {
-    const [search, setSearch] = useState("");
-
-    const [debouncedSearch, setDebouncedSearch] = useState("");
-
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sort, setSort] = useState("-createdAt");
+  const [category, setCategory] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(5000);
+  const [inStock, setInStock] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [categories, setCategories] = useState([]);
 
-const [category, setCategory] = useState("");
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
 
-const [minPrice, setMinPrice] = useState(0);
+    return () => clearTimeout(timer);
+  }, [search]);
 
-const [maxPrice, setMaxPrice] = useState(5000);
+  const fetchCategories = async () => {
+    try {
+      const response = await getAllCategories();
 
-const [inStock, setInStock] = useState(false);
-const [products, setProducts] = useState([]);
+      setCategories(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
-const [page, setPage] = useState(1);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
 
-const [totalPages, setTotalPages] = useState(1);
+        const response = await getAllProducts({
+          page,
+          limit: 9,
+          search: debouncedSearch,
+          category,
+          sort,
+          minPrice,
+          maxPrice,
+          inStock,
+        });
 
-const [totalProducts, setTotalProducts] = useState(0);
+        setProducts(response.data);
 
-const [categories, setCategories] = useState([]);
+        setTotalPages(response.totalPages);
 
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setDebouncedSearch(search);
-  }, 400);
+        setTotalProducts(response.totalProducts);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  return () => clearTimeout(timer);
-}, [search]);
+    fetchProducts();
+  }, [debouncedSearch, category, sort, page, minPrice, maxPrice, inStock]);
 
-const fetchCategories = async () => {
-  try {
-
-    const response = await getAllCategories();
-
-    setCategories(response.data);
-
-  } catch (error) {
-
-    console.log(error);
-
-  }
-};
-
-useEffect(() => {
-
-  fetchCategories();
-
-}, []);
-
-useEffect(() => {
-
-const fetchProducts = async () => {
-
-  try {
-
-    setLoading(true);
-
-    const response = await getAllProducts({
-
-      page,
-
-      limit: 9,
-
-      search:debouncedSearch,
-
-      category,
-
-      sort,
-      minPrice,
-    maxPrice,
-    inStock,
-    });
-
-    setProducts(response.data);
-
-    setTotalPages(response.totalPages);
-
-    setTotalProducts(response.totalProducts);
-
-  } catch (error) {
-
-    console.log(error);
-
-  } finally {
-
-    setLoading(false);
-
-  }
-
-};
-
-
-  fetchProducts();
-
-}, [debouncedSearch, category, sort, page,minPrice,maxPrice,inStock]);
-
-const clearFilters = () => {
-  setCategory("");
-  setMinPrice(0)
-  setMaxPrice(5000)
-  setInStock(false);
-  setSearch("");
-  setSort("-createdAt");
-  setPage(1);
-};
-
+  const clearFilters = () => {
+    setCategory("");
+    setMinPrice(0);
+    setMaxPrice(5000);
+    setInStock(false);
+    setSearch("");
+    setSort("-createdAt");
+    setPage(1);
+  };
 
   return (
     <>
-  <Container>
+      <Container>
+        <SectionTitle
+          title="Shop Our Collection"
+          subtitle="Discover premium plants and gardening essentials."
+        />
 
-    <SectionTitle
-      title="Shop Our Collection"
-      subtitle="Discover premium plants and gardening essentials."
-    />
+        <ProductToolbar
+          search={search}
+          setSearch={setSearch}
+          sort={sort}
+          setSort={setSort}
+          totalProducts={totalProducts}
+        />
 
-    <ProductToolbar  search={search}
-  setSearch={setSearch}
-  sort={sort}
-  setSort={setSort}
-  totalProducts={totalProducts} />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-8 lg:mt-10">
+          {/* Filters */}
+          <div className="lg:col-span-1">
+            <ProductFilters
+              categories={categories}
+              category={category}
+              setCategory={setCategory}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+              inStock={inStock}
+              setInStock={setInStock}
+              clearFilters={clearFilters}
+            />
+          </div>
 
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-8 lg:mt-10">
+          {/* Products */}
+          <div className="lg:col-span-3">
+            <ProductGrid
+              products={products}
+              loading={loading}
+              clearFilters={clearFilters}
+            />
+          </div>
+        </div>
+      </Container>
+    </>
+  );
+};
 
-  {/* Filters */}
-  <div className="lg:col-span-1">
-    <ProductFilters
-      categories={categories}
-      category={category}
-      setCategory={setCategory}
-      minPrice={minPrice}
-      setMinPrice={setMinPrice}
-      maxPrice={maxPrice}
-      setMaxPrice={setMaxPrice}
-      inStock={inStock}
-      setInStock={setInStock}
-      clearFilters={clearFilters}
-    />
-  </div>
-
-  {/* Products */}
-  <div className="lg:col-span-3">
-    <ProductGrid
-      products={products}
-      loading={loading}
-      clearFilters={clearFilters}
-    />
-  </div>
-
-</div>
-
-  </Container>
-</>
-  )
-}
-
-export default Shop
+export default Shop;

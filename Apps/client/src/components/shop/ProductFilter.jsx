@@ -179,7 +179,7 @@ const ProductFilters = ({
               type="range"
               min="0"
               max="5000"
-              step="100"
+              step="50"
               value={minPrice}
               onChange={(e) => {
                 const value = Number(e.target.value);
@@ -201,7 +201,7 @@ const ProductFilters = ({
               type="range"
               min="0"
               max="5000"
-              step="100"
+              step="50"
               value={maxPrice}
               onChange={(e) => {
                 const value = Number(e.target.value);

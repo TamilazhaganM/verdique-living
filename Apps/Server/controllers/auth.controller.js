@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import sendEmail from "../services/sendMail.js";
 import verificationEmailTemplate from "../templates/verificationEmail.js";
-
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -40,13 +39,14 @@ const registerUser = async (req, res) => {
     const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${emailVerificationToken}`;
     const html = verificationEmailTemplate(verificationLink);
     await sendEmail(user.email, "Verification", html);
+    console.log("✅ auth.controller loadedddd");
     return res.status(201).json({
       success: true,
       message: "Registration Successful. Please Verify your email",
     });
     
   } catch (error) {
-    console.error(error);
+    
 return res.status(500).json({
   success: false,
   message: error.message,
