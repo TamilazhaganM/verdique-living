@@ -3,6 +3,7 @@ import { X, Filter } from "lucide-react";
 import { getAllCategories } from "../../services/category.service";
 
 const ProductFilters = ({
+  categories,
   category,
   setCategory,
   inStock,
@@ -13,21 +14,8 @@ const ProductFilters = ({
   setMaxPrice,
   clearFilters,
 }) => {
-  const [categories, setCategories] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await getAllCategories();
-      setCategories(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>
@@ -53,7 +41,6 @@ const ProductFilters = ({
       <aside
         className={`
         bg-white
-        rounded-2xl
         shadow-sm
         border
         p-6
@@ -67,7 +54,7 @@ const ProductFilters = ({
         left-0
         h-screen
         w-75
-        z-50
+        z-40
         overflow-y-auto
         transition-transform
         duration-300

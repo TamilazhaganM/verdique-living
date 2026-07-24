@@ -64,27 +64,27 @@ const ProductToolbar = ({
           focus:ring-green-600
           "
         >
-          <option value="-createdAt">
+          <option value="latest">
             Newest
           </option>
 
-          <option value="createdAt">
+          <option value="oldest">
             Oldest
           </option>
 
-          <option value="price">
+          <option value="price_asc">
             Price Low → High
           </option>
 
-          <option value="-price">
+          <option value="price_desc">
             Price High → Low
           </option>
 
-          <option value="name">
+          <option value="name_asc">
             Name A-Z
           </option>
 
-          <option value="-name">
+          <option value="name_desc">
             Name Z-A
           </option>
 

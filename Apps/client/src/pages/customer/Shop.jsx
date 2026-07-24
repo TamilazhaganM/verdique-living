@@ -33,46 +33,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-  const params = new URLSearchParams();
-
-  if (debouncedSearch) params.set("search", debouncedSearch);
-
-  if (category) params.set("category", category);
-
-  if (sort !== "-createdAt") params.set("sort", sort);
-
-  if (page > 1) params.set("page", page.toString());
-
-  if (minPrice > 0) params.set("minPrice", minPrice.toString());
-
-  if (maxPrice < 5000) params.set("maxPrice", maxPrice.toString());
-
-  if (inStock) params.set("inStock", "true");
-
-  // Prevent unnecessary URL updates
-  if (params.toString() !== searchParams.toString()) {
-    setSearchParams(params);
-  }
-}, [
-  debouncedSearch,
-  category,
-  sort,
-  page,
-  minPrice,
-  maxPrice,
-  inStock,
-  searchParams,
-  setSearchParams,
-]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 400);
-
-    return () => clearTimeout(timer);
-  }, [search]);
+              // Categories Fetching and Storing //
 
   const fetchCategories = async () => {
     try {
@@ -87,18 +48,63 @@ const Shop = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+                /// 
+
+
+                // Page Reset //
  useEffect(() => {
-  if (page !== 1) {
-    setPage(1);
-  }
-}, [
-  debouncedSearch,
-  category,
-  sort,
-  minPrice,
-  maxPrice,
-  inStock,
-]);
+    if (page !== 1) {
+      setPage(1);
+    }
+  }, [debouncedSearch, category, sort, minPrice, maxPrice, inStock]);
+                ///
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    if (debouncedSearch) params.set("search", debouncedSearch);
+
+    if (category) params.set("category", category);
+
+    if (sort !== "latest") params.set("sort", sort);
+
+    if (page > 1) params.set("page", page.toString());
+
+    if (minPrice > 0) params.set("minPrice", minPrice.toString());
+
+    if (maxPrice < 5000) params.set("maxPrice", maxPrice.toString());
+
+    if (inStock) params.set("inStock", "true");
+
+    // Prevent unnecessary URL updates
+    if (params.toString() !== searchParams.toString()) {
+      setSearchParams(params);
+    }
+  }, [
+    debouncedSearch,
+    category,
+    sort,
+    page,
+    minPrice,
+    maxPrice,
+    inStock,
+    searchParams,
+    setSearchParams,
+  ]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+   
+                // Product Fetch //
+  
+ 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -130,19 +136,23 @@ const Shop = () => {
     fetchProducts();
   }, [debouncedSearch, category, sort, page, minPrice, maxPrice, inStock]);
 
- const clearFilters = () => {
-  setSearch("");
-  setDebouncedSearch("");
-  setCategory("");
-  setSort("-createdAt");
-  setMinPrice(0);
-  setMaxPrice(5000);
-  setInStock(false);
-  setPage(1);
+                        ///
 
-  setSearchParams({});
-};
 
+  // Clear Filters //
+  const clearFilters = () => {
+    setSearch("");
+    setDebouncedSearch("");
+    setCategory("");
+    setSort("latest");
+    setMinPrice(0);
+    setMaxPrice(5000);
+    setInStock(false);
+    setPage(1);
+
+    setSearchParams({});
+  };
+                   ///
   return (
     <>
       <Container>
@@ -184,13 +194,8 @@ const Shop = () => {
               clearFilters={clearFilters}
             />
 
-                  <Pagination
-  page={page}
-  totalPages={totalPages}
-  setPage={setPage}
-/>
+            <Pagination page={page} totalPages={totalPages} setPage={setPage} />
           </div>
-    
         </div>
       </Container>
     </>

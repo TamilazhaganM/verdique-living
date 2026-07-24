@@ -193,7 +193,7 @@ const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const product = await Product.findById(id).populate("category", "name");  ;
+    const product = await Product.findById(id)
 
     if (!product) {
       return res.status(404).json({
