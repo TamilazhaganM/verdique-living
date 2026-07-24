@@ -1,26 +1,70 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductToolbar from "../../components/shop/ProductToolbar";
 import ProductFilters from "../../components/shop/ProductFilter";
 import ProductGrid from "../../components/shop/ProductGrid";
 import Container from "../../components/ui/Container";
 import SectionTitle from "../../components/ui/SectionTitle";
+import Pagination from "../../components/customer/Pagination";
 import { getAllProducts } from "../../services/product.service";
 import { getAllCategories } from "../../services/category.service";
 
 const Shop = () => {
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [sort, setSort] = useState("-createdAt");
-  const [category, setCategory] = useState("");
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(5000);
-  const [inStock, setInStock] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [debouncedSearch, setDebouncedSearch] = useState(
+    searchParams.get("search") || "",
+  );
+  const [sort, setSort] = useState(searchParams.get("sort") || "-createdAt");
+  const [category, setCategory] = useState(searchParams.get("category") || "");
+  const [minPrice, setMinPrice] = useState(
+    Number(searchParams.get("minPrice")) || 0,
+  );
+  const [maxPrice, setMaxPrice] = useState(
+    Number(searchParams.get("maxPrice")) || 5000,
+  );
+  const [inStock, setInStock] = useState(
+    searchParams.get("inStock") === "true",
+  );
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+  const params = new URLSearchParams();
+
+  if (debouncedSearch) params.set("search", debouncedSearch);
+
+  if (category) params.set("category", category);
+
+  if (sort !== "-createdAt") params.set("sort", sort);
+
+  if (page > 1) params.set("page", page.toString());
+
+  if (minPrice > 0) params.set("minPrice", minPrice.toString());
+
+  if (maxPrice < 5000) params.set("maxPrice", maxPrice.toString());
+
+  if (inStock) params.set("inStock", "true");
+
+  // Prevent unnecessary URL updates
+  if (params.toString() !== searchParams.toString()) {
+    setSearchParams(params);
+  }
+}, [
+  debouncedSearch,
+  category,
+  sort,
+  page,
+  minPrice,
+  maxPrice,
+  inStock,
+  searchParams,
+  setSearchParams,
+]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -43,7 +87,18 @@ const Shop = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
-
+ useEffect(() => {
+  if (page !== 1) {
+    setPage(1);
+  }
+}, [
+  debouncedSearch,
+  category,
+  sort,
+  minPrice,
+  maxPrice,
+  inStock,
+]);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -75,15 +130,18 @@ const Shop = () => {
     fetchProducts();
   }, [debouncedSearch, category, sort, page, minPrice, maxPrice, inStock]);
 
-  const clearFilters = () => {
-    setCategory("");
-    setMinPrice(0);
-    setMaxPrice(5000);
-    setInStock(false);
-    setSearch("");
-    setSort("-createdAt");
-    setPage(1);
-  };
+ const clearFilters = () => {
+  setSearch("");
+  setDebouncedSearch("");
+  setCategory("");
+  setSort("-createdAt");
+  setMinPrice(0);
+  setMaxPrice(5000);
+  setInStock(false);
+  setPage(1);
+
+  setSearchParams({});
+};
 
   return (
     <>
@@ -125,7 +183,14 @@ const Shop = () => {
               loading={loading}
               clearFilters={clearFilters}
             />
+
+                  <Pagination
+  page={page}
+  totalPages={totalPages}
+  setPage={setPage}
+/>
           </div>
+    
         </div>
       </Container>
     </>

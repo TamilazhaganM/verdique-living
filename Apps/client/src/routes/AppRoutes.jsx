@@ -31,11 +31,16 @@ import CustomerDetails from "../pages/customer/CustomerDetails";
 import ContactEnquries from "../pages/dashboard/ContactEnqueries"
 import Contact from "../pages/customer/Contact";
 import CategoryManagement from "../pages/dashboard/CategoryManagement";
+import { Toaster } from "react-hot-toast";
 
 
 const AppRoutes = () => {
   return (
     <Router>
+    <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <Routes>
         {/* <Route path="/" element={<Register />} /> */}
         <Route path="/login" element={<Login />} />
